@@ -18,21 +18,17 @@ func statusLabel(status string) string {
 
 // countStatus считает количество элементов с заданным статусом.
 func countStatus(statuses []string, target string) int {
-	// TODO: пройдите по срезу через for range.
-	// TODO: сравните каждый элемент с target и верните счётчик.
 	count := 0
 	for i := 0; i < len(statuses); i++ {
 		if statuses[i] == target {
 			count++
 		}
 	}
-	fmt.Printf("Счётчик: %d\n", count)
-	return 0
+	return count
 }
 
 func main() {
 	statuses := []string{"new", "in_progress", "done", "done"}
-	// TODO: добавьте ещё один статус new через append.
 	statuses = append(statuses, "progress")
 
 	fmt.Printf("Задач всего: %d\n", len(statuses))
@@ -43,4 +39,5 @@ func main() {
 
 	// TODO: создайте map[string]int для подсчёта статусов.
 	// TODO: выведите new, in_progress, done в фиксированном порядке.
+
 }
