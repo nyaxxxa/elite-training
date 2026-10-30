@@ -29,7 +29,7 @@ func countStatus(statuses []string, target string) int {
 
 func main() {
 	statuses := []string{"new", "in_progress", "done", "done"}
-	statuses = append(statuses, "progress")
+	statuses = append(statuses, "in_progress")
 
 	fmt.Printf("Задач всего: %d\n", len(statuses))
 	for i, status := range statuses {
@@ -37,7 +37,13 @@ func main() {
 	}
 	fmt.Printf("Завершено: %d\n", countStatus(statuses, "done"))
 
-	// TODO: создайте map[string]int для подсчёта статусов.
-	// TODO: выведите new, in_progress, done в фиксированном порядке.
+	counts := make(map[string]int)
 
+	for _, status := range statuses {
+		counts[status]++
+	}
+	fmt.Printf("Статистика: \n")
+	for status, count := range counts {
+		fmt.Printf("%s = %d, ", status, count)
+	}
 }
