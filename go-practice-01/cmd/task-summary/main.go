@@ -6,28 +6,34 @@ import "fmt"
 func statusLabel(status string) string {
 	switch status {
 	case "in_progress":
-		fmt.Println("В процессе")
+		return "В процессе"
 	case "new":
-		fmt.Println("Новый")
+		return "Новый"
 	case "done":
-		fmt.Println("Выполнено")
+		return "Выполнено"
 	default:
-		fmt.Println("Статус не известен")
+		return "Статус не известен"
 	}
-
-	return ""
 }
 
 // countStatus считает количество элементов с заданным статусом.
 func countStatus(statuses []string, target string) int {
 	// TODO: пройдите по срезу через for range.
 	// TODO: сравните каждый элемент с target и верните счётчик.
+	count := 0
+	for i := 0; i < len(statuses); i++ {
+		if statuses[i] == target {
+			count++
+		}
+	}
+	fmt.Printf("Счётчик: %d\n", count)
 	return 0
 }
 
 func main() {
 	statuses := []string{"new", "in_progress", "done", "done"}
 	// TODO: добавьте ещё один статус new через append.
+	statuses = append(statuses, "progress")
 
 	fmt.Printf("Задач всего: %d\n", len(statuses))
 	for i, status := range statuses {
