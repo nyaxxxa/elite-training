@@ -11,20 +11,27 @@ type Task struct {
 
 func (t Task) Summary() string {
 	// TODO: верните "#ID Название [статус], приоритет N".
-	return "TODO: реализуйте Summary"
+	return fmt.Sprintf("%d %s [%s], приоритет %d", t.ID, t.Title, t.Status, t.Priority)
 }
 
 func (t *Task) Complete() {
-	// TODO: присвойте статус done исходной задаче.
+	t.Status = "done"
 }
 
 func (t *Task) SetPriority(priority int) bool {
-	// TODO: проверьте диапазон 1–3, при ошибке объект не менять.
-	return false
+	if priority < 1 || priority > 3 {
+		return false
+	}
+	t.Priority = priority
+	return true
 }
 
 func findTaskByID(tasks []Task, id int) *Task {
-	// TODO: верните &tasks[i] при совпадении, иначе nil.
+	for i := range tasks {
+		if tasks[i].ID == id {
+			return &tasks[i]
+		}
+	}
 	return nil
 }
 
@@ -42,8 +49,20 @@ func main() {
 		{ID: 2, Title: "Освоить функции", Status: "in_progress", Priority: 2},
 		{ID: 3, Title: "Изучить структуры", Status: "new", Priority: 3},
 	}
-	// TODO: найдите ID=2, завершите и установите приоритет 3.
-	// TODO: посчитайте завершённые задачи.
+
+	found := findTaskByID(tasks, 2)
+	if found != nil {
+		found.Priority = 3
+		found.Complete()
+	}
+	count := 0
+
+	for _, task := range tasks {
+		if task.Status == "done" {
+			count++
+		}
+	}
+	fmt.Printf("Завершённые задачи = %d\n", count)
 	for _, task := range tasks {
 		fmt.Println(task.Summary())
 	}
