@@ -67,7 +67,6 @@ func (s *MemoryStore) Complete(id int) error {
 }
 
 func (s *MemoryStore) Delete(id int) error {
-	// TODO: удалите задачу по индексу.
 	for i := range s.tasks {
 		if s.tasks[i].ID == id {
 			s.tasks = append(s.tasks[:i], s.tasks[i+1:]...)
