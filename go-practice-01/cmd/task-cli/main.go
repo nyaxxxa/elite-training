@@ -37,28 +37,52 @@ type MemoryStore struct {
 func NewMemoryStore() *MemoryStore { return &MemoryStore{nextID: 1} }
 
 func (s *MemoryStore) Add(title string, priority int) (Task, error) {
-	// TODO: проверьте строку и приоритет, добавьте Task, увеличьте nextID.
-	return Task{}, ErrInvalid
+	title = strings.TrimSpace(title)
+	if title == "" || priority < 1 || priority > 3 {
+		return Task{}, fmt.Errorf("некорректные данные: %w", ErrInvalid)
+	}
+	newTask := Task{ID: s.nextID, Title: title, Status: "new", Priority: priority}
+	s.tasks = append(s.tasks, newTask)
+	s.nextID++
+	return newTask, nil
 }
 
 func (s *MemoryStore) Get(id int) (Task, error) {
-	// TODO: найдите задачу или верните ошибку через %w.
+	for _, task := range s.tasks {
+		if task.ID == id {
+			return task, nil
+		}
+	}
 	return Task{}, fmt.Errorf("id %d: %w", id, ErrNotFound)
 }
 
 func (s *MemoryStore) Complete(id int) error {
-	// TODO: изменяйте s.tasks[i], а не копию.
-	return ErrNotFound
+	for i := range s.tasks {
+		if s.tasks[i].ID == id {
+			s.tasks[i].Status = "done"
+			return nil
+		}
+	}
+	return fmt.Errorf("id %d: %w", id, ErrNotFound)
 }
 
 func (s *MemoryStore) Delete(id int) error {
 	// TODO: удалите задачу по индексу.
-	return ErrNotFound
+	for i := range s.tasks {
+		if s.tasks[i].ID == id {
+			s.tasks = append(s.tasks[:i], s.tasks[i+1:]...)
+			return nil
+		}
+	}
+	return fmt.Errorf("id %d: %w", id, ErrNotFound)
 }
 
 func (s *MemoryStore) List() []Task {
-	// TODO: верните копию среза.
-	return nil
+	var memList []Task
+	for _, task := range s.tasks {
+		memList = append(memList, task)
+	}
+	return memList
 }
 
 func readLine(scanner *bufio.Scanner, prompt string) (string, bool) {
